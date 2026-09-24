@@ -37,7 +37,11 @@ exports.handler = async (event) => {
         }),
       }
     );
-    if (!r.ok) return reply(r.status === 429 ? 429 : 502, { error: "Upstream " + r.status });
+    if (!r.ok) {
+      const errText = await r.text();
+      console.error("Upstream error", r.status, errText);
+      return reply(r.status === 429 ? 429 : 502, { error: "Upstream " + r.status });
+    }
     const data = await r.json();
     const parts = (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts) || [];
     const text = parts.map((p) => p.text || "").join("");
