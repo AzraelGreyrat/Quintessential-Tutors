@@ -50,6 +50,7 @@ exports.handler = async (event) => {
     if (!Array.isArray(out.board)) out.board = [];
     return reply(200, out);
   } catch (e) {
+    console.error("Function error", e.message);
     return reply(502, { error: "Bad response from the AI" });
   }
 };
