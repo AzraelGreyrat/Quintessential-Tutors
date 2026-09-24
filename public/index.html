@@ -132,7 +132,7 @@ function start(q){
 }
 function speak(ja,node){
  if(!window.speechSynthesis)return;speechSynthesis.cancel();
- const u=new SpeechSynthesisUtterance(ja);u.lang="ja-JP";u.pitch=cur.pitch;u.rate=cur.rate;
+const u=new SpeechSynthesisUtterance(ja);u.lang="ja-JP";u.pitch=cur.pitch;u.rate=Math.min(cur.rate,2);
  const v=speechSynthesis.getVoices().find(x=>x.lang&&x.lang.toLowerCase().startsWith("ja"));if(v)u.voice=v;
  u.onstart=()=>node.classList.add("on");u.onend=u.onerror=()=>node.classList.remove("on");
  speechSynthesis.speak(u);
