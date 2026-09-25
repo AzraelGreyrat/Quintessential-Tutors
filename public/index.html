@@ -171,6 +171,19 @@ async function speak(ja,node){
   speakFallback(ja,node);
  }
 }
+function tutor(m){
+ talk.replaceChildren(el("div","en",m.en),el("div","ja",m.ja));
+ const p=el("button","play","Play voice");p.onclick=()=>speak(m.ja,qp);talk.append(p);
+ if(Array.isArray(m.board))draw(m.board);
+ hist.push("Tutor: "+m.en);
+ if(voiceOn)speak(m.ja,qp);
+}
+function draw(b){
+ const e=board.querySelector(".empty");if(e)e.remove();
+ b.forEach(x=>{const t=String(x.type);
+  board.append(el(t==="h"?"h3":"div",t==="eq"?"eq":t==="note"?"note":t==="h"?"":"p",String(x.text)))});
+ board.scrollTop=board.scrollHeight;
+}
 async function send(){
  const text=inp2.value.trim();if(!text||!cur)return;inp2.value="";
  const e=board.querySelector(".empty");if(e)e.remove();
